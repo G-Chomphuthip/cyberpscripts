@@ -45,6 +45,13 @@ grep -v "PermitUserEnvironment" /etc/ssh/sshd_config > /etc/ssh/sshd_config
 printf "PermitEmptyPasswords no\nPermitUserEnvironment no" >> /etc/ssh/sshd_config
 systemctl restart sshd.service
 
+
+echo "Turning off ctrl alt delete"
+systemctl mask ctrl-alt-del.target
+systemctl daemon-reload
+
+
+
 echo "Finding all accounts with no password (ADD A PASSWORD) and logging to 'pwlessaccs'"
 awk -F: '($2 == "") {print}' /etc/shadow | tee -a "pwlessaccs"
 
