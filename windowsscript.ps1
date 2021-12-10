@@ -106,9 +106,9 @@ Write-host 'Disabled Plain Text Password Storage'
 #reg add HKLM\System\CurrentControlSet\services\TCPIP6\Parameters /v DisabledComponents /t Reg_DWORD /d 255 /f
 #Write-host 'Disabled IPv6'
 
-#Disable Remote Desktop Protocol (RDP)
-reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /f /v fDenyTSConnections /t Reg_DWORD /d 1
-Write-host 'Disabled RDP'
+#Disable Remote Desktop Protocol (RDP) (Does not want RDP disabled)
+#reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /f /v fDenyTSConnections /t Reg_DWORD /d 1
+#Write-host 'Disabled RDP' 
 
 
 #STIG stuff (https://www.stigviewer.com/stig/windows_10/2019-01-04/finding/V-63797)
