@@ -1,0 +1,28 @@
+Stuff to do after script is run:
+
+Check if debug program's user right is only assigned to the administrators group
+(gpedit.msc -> Local Computer Policy -> Computer Configuration -> Windows Settings -> Security Settings -> Local Policies -> User Rights Assignment if anybody besides the administrator has access to the debug programs than remove them from it)
+
+Make sure IIS (and other unauthorized services) is not installed/enabled
+(Programs and Features -> Turn Windows Features on or off)
+
+Make sure the 'act as a part of the operating system' user right is not granted to anyone
+(gpedit.msc -> Local Computer Policy -> Computer Configuration -> Windows Settings -> Security Settings -> Local Policies -> User Rights Assignment if anybody has access to the the right then remove them from it)
+
+Make sure only specified admin accounts have admin
+(Computer Management -> System Tools -> Local Users and Groups -> Groups)
+
+Make sure the 'create a token object' user right is not assigned to anybody (maybe including admin)
+(gpedit.msc -> Local Computer Policy -> Computer Configuration -> Windows Settings -> Security Settings -> Local Policies -> User Rights Assignment if anybody has access to the the right then remove them from it)
+
+Turn off reversable password encryption
+(gpedit.msc -> Local Computer Policy -> Computer Configuration -> Windows Settings -> Security Settings -> Account Policies -> Password Policy, look for "store password using reversible encryption")
+
+Disable SID/Name translation
+(gpedit.msc -> local computer policy -> Computer Configuration -> windows settings -> security settings -> local policies -> security options, look for 'network access: allow anonymous SID/Name translation')
+
+Make sure windows is up to date
+
+Make sure successful logons are audited
+(Computer Configuration -> Windows Settings - > Security Settings -> Advanced Audit Policy Configuration -> System Audit Policies -> Account Logon -> Audit Credential Validation, select 'success')
+
