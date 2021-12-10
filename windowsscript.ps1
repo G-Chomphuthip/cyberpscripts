@@ -183,3 +183,8 @@ Write-host 'Limited Enhanced Diagnostic Data
 #Configures Kerberos encryption types
 reg add HKLM\software\microsoft\windows\currentversion\policies\system\kerberos\parameters\ /v SupportedEncryptionTypes /t Reg_DWORD /d 2147483640 /f
 Write-host 'Allowed kerberos encryption types'
+
+
+#Turns on Credential Guard 
+reg add HKLM\software\policies\microsoft\windows\deviceguard\ /v LsaCfgFlags /t Reg_DWORD /d 1 /f
+Write-host 'Turned on credential guard'
