@@ -56,7 +56,6 @@ Write-host "Enabled password complexity rules"
 #disable reversible encryption of passwords
 Get-ADUser -Filter * | Set-ADUser -AllowReversiblePasswordEncryption $false
 
-
 #registry stuff
 $cool = 0
 echo 'please back up registry and when ready type poopsock and press enter'
@@ -65,20 +64,21 @@ while ($cool -ne 'poopsock') {
 }
 
 #Enable User Account Control
-reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t RegDWORD /d 1 /f
+reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t Reg_DWORD /d 1 /f
 Write-host 'Enabled UAC'
 
 #Enable Windows Defender Antivirus
-reg delete “HKLM\Software\Policies\Microsoft\Windows Defender” /v DisableAntiSpyware /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t Reg_DWORD /d 0 /f
 Write-host 'Enabled Windows Defender'
 
 #Enable Automatic Updates
-reg add “HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\AU” /vNoAutoUpdate /t Reg_DWORD /d 0 /f
-Write-host 'Enabled Automatic Updates'
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\AU" /v NoAutoUpdate /t Reg_DWORD /d 0 /f
+Write-host 'Disabled No Automatic Updates'
 
 #Automatically download and notify of install for updates
-reg add “HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\AU” /v AUOptions /tReg_DWORD /d 3 /f
-Write-host 'Enabled auto-updates'
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\AU" /v AUOptions /t Reg_DWORD /d 3 /f
+Write-host 'Enabled Automatic Download and Updates'
 
 #Restrict anonymous access
 reg add HKLM\System\CurrentControlSet\Control\Lsa\  /v restrictanonymous /t Reg_DWORD /d 1 /f
@@ -93,15 +93,15 @@ reg add HKLM\System\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t Re
 Write-host 'Disabled insecure NTLM and LM'
 
 #Disable admin autologon
-reg add “HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon” /v AutoAdminLogon /t Reg_DWORD /d 0 /f
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t Reg_DWORD /d 0 /f
 Write-host 'Disabled Administrator Autologin'
 
-#Prevent the inclusion of the Everyone security group SID in the anonymous user’s access token
-reg add HKLM\System\CurrentControlSet\Control\Lsa\  /v everyoneincludesanonymous /t Reg_DWORD/d 0 /f
+#Prevent the inclusion of the Everyone security group SID in the anonymous user's access token
+reg add HKLM\System\CurrentControlSet\Control\Lsa\  /v everyoneincludesanonymous /t Reg_DWORD /d 0 /f
 Write-host 'Disabled possible information leak from token response'
 
 #Disable EnablePlainTextPassword
-reg add HKLM\System\CurrentControlSet\services\LanmanWorkstation\Parameters /vEnablePlainTextPassword /t Reg_DWORD /d 0 /f
+reg add HKLM\System\CurrentControlSet\services\LanmanWorkstation\Parameters /v EnablePlainTextPassword /t Reg_DWORD /d 0 /f
 Write-host 'Disabled Plain Text Password Storage'
 
 #Disable IPv6
@@ -109,5 +109,5 @@ Write-host 'Disabled Plain Text Password Storage'
 #Write-host 'Disabled IPv6'
 
 #Disable Remote Desktop Protocol (RDP)
-reg add “HKLM\System\CurrentControlSet\Control\Terminal Server” /f /v fDenyTSConnections /t Reg_DWORD /d 1
+reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /f /v fDenyTSConnections /t Reg_DWORD /d 1
 Write-host 'Disabled RDP'
