@@ -39,6 +39,12 @@ else
   echo "libpam-pkcs11 is installed"
 fi
 
+echo "disabling automatic and unattended ssh logins"
+grep -v "PermitEmptyPasswords" /etc/ssh/sshd_config >> /etc/ssh/sshd_config
+grep -v "PermitUserEnvironment" /etc/ssh/sshd_config >> /etc/ssh/sshd_config
+printf "PermitEmptyPasswords no\nPermitUserEnvironment no" >> /etc/ssh/sshd_config
+systemctl restart sshd.service
+
 echo "Finding all accounts with no password (ADD A PASSWORD) and logging to 'pwlessaccs'"
 awk -F: '($2 == "") {print}' /etc/shadow | tee -a "pwlessaccs"
 
