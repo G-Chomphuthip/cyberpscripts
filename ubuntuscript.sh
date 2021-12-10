@@ -33,7 +33,7 @@ then
   if [ -f /etc/etc/pam_pkcs11/pam_pkcs11.conf ]
   then
     echo use_mappers=pwent >> /etc/etc/pam_pkcs11/pam_pkcs11.conf
-  else
+  else 
     echo 'YOURE GOING TO NEED TO DO SOME MORE CONFIGURATION OF PKCS11'
 else
   echo "libpam-pkcs11 is installed"
