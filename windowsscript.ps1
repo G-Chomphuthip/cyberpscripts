@@ -26,7 +26,7 @@ $minpwlen = 9
 
 $lockoutduration = 30
 $lockoutthreshold = 5
-$lockoutwindow = 10
+$lockoutwindow = 20
 
 net accounts /maxpwage:$maxpwage
 Write-host "Set max password age to $maxpwage"
@@ -53,8 +53,6 @@ secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas S
 Remove-Item C:\secpol.cfg -Force
 Write-host "Enabled password complexity rules"
 
-#disable reversible encryption of passwords
-Get-ADUser -Filter * | Set-ADUser -AllowReversiblePasswordEncryption $false
 
 #registry stuff
 $cool = 0
@@ -111,3 +109,52 @@ Write-host 'Disabled Plain Text Password Storage'
 #Disable Remote Desktop Protocol (RDP)
 reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /f /v fDenyTSConnections /t Reg_DWORD /d 1
 Write-host 'Disabled RDP'
+
+
+#STIG stuff (https://www.stigviewer.com/stig/windows_10/2019-01-04/finding/V-63797)
+Write-host 'Now following STIGs Windows 10 Security Technical Implementation Guide (https://www.stigviewer.com/stig/windows_10/2019-01-04/finding/V-63797)'
+Write-host 'Addressing HIGH severity issues...'
+
+#Disable LAN Manager Password storage because LAN Manager has a weak hashing algorithm
+reg add HKLM\System\CurrentControlSet\Control\Lsa\ /v NoLMHash /t Reg_DWORD /d 1 /f
+Write-host 'Disabled LAN Manager Password Storage'
+
+#Disable Solicited Remote Assistance
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\" /v fAllowToGetHelp /t Reg_DWORD /d 0 /f
+Write-host 'Disabled Solicited Remote Assistance'
+
+#Disable escalating privileges when Windows Installer is run
+reg add HKLM\Software\Policies\Microsoft\Windows\Installer\ /v AlwaysInstallElevated /t Reg_DWORD /d 0 /f
+Write-host 'Disabled escalating privileges when Windows Installer is run'
+
+#Disable Autoplay for nonvolumn devices
+reg add HKLM\Software\Policies\Microsoft\Windows\Explorer\ /v NoAutoplayfornonVolumn /t Reg_DWORD /d 1 /f
+Write-host 'Disabled Autoplay for nonvolumn devices'
+
+#Disable Anonymous access to Named Pipes
+reg add HKLM\System\CurrentControlSet\Services\LanManServer\Parameters\ /v RestictNullSessAccess /t Reg_DWORD /d 1 /f
+Write-host 'Disabled Anonymous access to Named Pipes'
+
+#Disable Autoplay for all drives
+reg add HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\ /v NoDriveTypeAutoRun /t Reg_DWORD /d 255 /f 
+Write-host 'Disabled Autoplay for all drives'
+
+#Disable Autorun commands 
+reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\ /v NoAutorun /t Reg_DWORD /d 1 /f
+Write-host 'Disabled Autorun Commands'
+
+#Enable SEHOP, which can prevent certain types of buffer overflows
+reg add "HKLM\Software\CurrentControlSet\Control\Session Manager\kernel" /v DisableExceptionChainValidation /t Reg_dword /d 0 /f
+Write-host 'Enable SEHOP, which stops a very common buffer overflow attack'
+
+#Configures Data Execution Prevention to be OptOut
+BCDEdit /set "{current}" nx OptOut
+Write-host 'Configured DEP to run in OptOut mode'
+
+#Disables Basic auth (plain text password storage) on Windows Remote Management Service
+reg add HKLM\software\policies\Microsoft\windows\Winrm\Service\ /v AllowBasic /t Reg_DWORD /d 0 /f
+Write-host 'Disabled Basic Auth for the Windows Remove Management Service'
+
+#Disables Basic auth (plain text password storage) on Windows Remote Management Client
+reg add HKLM\software\policies\Microsoft\windows\Winrm\Client\ /v AllowBasic /t Reg_DWORD /d 0 /f
+Write-host 'Disabled Basic Auth for the Windows Remove Management Client'
