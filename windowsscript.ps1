@@ -158,3 +158,28 @@ Write-host 'Disabled Basic Auth for the Windows Remove Management Service'
 #Disables Basic auth (plain text password storage) on Windows Remote Management Client
 reg add HKLM\software\policies\Microsoft\windows\Winrm\Client\ /v AllowBasic /t Reg_DWORD /d 0 /f
 Write-host 'Disabled Basic Auth for the Windows Remove Management Client'
+
+
+#Prevents Data Execution Prevention from being turned off by Fil Explorer
+reg add HKLM\software\policies\windows\explorer\ /v NoDataExecutionPrevention /t Reg_DWORD /d 0 /f
+Write-host 'Enabled Data Execution Prevention, prevents DEP from being turned off by File Explorer'
+
+#Enhanced anti-spoofing for facial recognition
+reg add HKLM\software\policies\microsoft\biometrics\facialfeatures\ /v EnhancedAntiSpoofing /t Reg_DWORD /d 1 /f
+Write-host 'Enhanced Anti Spoofing for facialrecognition'
+
+#Enables Defender SmartScreen for explorer
+reg add HKLM\software\policies\microsoft\windows\system\ /v EnableSmartScreen / t Reg_DWORD /d 1 /f
+Write-host 'Enabled Windows Defender SmartScreen for Explorer, prevents users from running malicious programs'
+
+#Windows Telemetery must not be configured to full
+reg add HKLM\software\policies\microsoft\windows\datacollection\ /v AllowTelemetry /t Reg_DWORD /d 0 /f 
+Write-host 'Windows Telemetry
+
+#Limits Enhanced Diagnostic data to the minimum to support Windows Analytics
+reg add HKLM\software\policies\microsoft\windows\datacollection\ /v LimitEnhancedDiagnosticDataWindowsAnalytics /t Reg_DWORD /d 1 /f
+Write-host 'Limited Enhanced Diagnostic Data
+
+#Configures Kerberos encryption types
+reg add HKLM\software\microsoft\windows\currentversion\policies\system\kerberos\parameters\ /v SupportedEncryptionTypes /t Reg_DWORD /d 2147483640 /f
+Write-host 'Allowed kerberos encryption types'
