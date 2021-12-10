@@ -15,8 +15,8 @@ Write-host 'Blocking incoming NFS (TCP)'
 New-NetFirewallRule -DisplayName "Block Incoming NFS (UDP)" -Direction Inbound -Protocol UDP -Action Block -LocalPort 2049
 Write-host 'Blocking incoming NFS (UDP)'
 
-New-NetFirewallRule -DisplayName "Block Incoming RDP" -Direction Inbound -Protocol TCP -Action Block -LocalPort 2049
-Write-host 'Blocking incoming RDP'
+#New-NetFirewallRule -DisplayName "Block Incoming RDP" -Direction Inbound -Protocol TCP -Action Block -LocalPort 2049
+#Write-host 'Blocking incoming RDP' (Does not want RDP blocked)
 
 
 #login stuff (group policy object)
