@@ -174,11 +174,11 @@ Write-host 'Enabled Windows Defender SmartScreen for Explorer, prevents users fr
 
 #Windows Telemetery must not be configured to full
 reg add HKLM\software\policies\microsoft\windows\datacollection\ /v AllowTelemetry /t Reg_DWORD /d 0 /f 
-Write-host 'Windows Telemetry
+Write-host 'Windows Telemetry'
 
 #Limits Enhanced Diagnostic data to the minimum to support Windows Analytics
 reg add HKLM\software\policies\microsoft\windows\datacollection\ /v LimitEnhancedDiagnosticDataWindowsAnalytics /t Reg_DWORD /d 1 /f
-Write-host 'Limited Enhanced Diagnostic Data
+Write-host 'Limited Enhanced Diagnostic Data'
 
 #Configures Kerberos encryption types
 reg add HKLM\software\microsoft\windows\currentversion\policies\system\kerberos\parameters\ /v SupportedEncryptionTypes /t Reg_DWORD /d 2147483640 /f
