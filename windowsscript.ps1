@@ -119,9 +119,9 @@ Write-host 'Addressing HIGH severity issues...'
 reg add HKLM\System\CurrentControlSet\Control\Lsa\ /v NoLMHash /t Reg_DWORD /d 1 /f
 Write-host 'Disabled LAN Manager Password Storage'
 
-#Disable Solicited Remote Assistance
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\" /v fAllowToGetHelp /t Reg_DWORD /d 0 /f
-Write-host 'Disabled Solicited Remote Assistance'
+#Disable Solicited Remote Assistance (RDP)
+#reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\" /v AllowToGetHelp /t Reg_DWORD /d 0 /f
+#Write-host 'Disabled Solicited Remote Assistance'
 
 #Disable escalating privileges when Windows Installer is run
 reg add HKLM\Software\Policies\Microsoft\Windows\Installer\ /v AlwaysInstallElevated /t Reg_DWORD /d 0 /f
